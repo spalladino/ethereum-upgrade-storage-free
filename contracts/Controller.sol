@@ -2,6 +2,7 @@ import "./Beacon.sol";
 import "./Proxy.sol";
 
 contract Controller {
+  // Run scripts/getOffset to get these values
   uint256 constant proxyMainOffset = 55;
   uint256 constant proxyBackupOffset = 99;
 
@@ -44,6 +45,9 @@ contract Controller {
     address main = _getBeaconAddress(name, BeaconType.Main);
     address backup = _getBeaconAddress(name, BeaconType.Backup);
     bytes memory proxyCode = type(Proxy).creationCode;
+
+    // We need to manually overwrite the proxy bytecode where the addresses would be stored
+    // since solc does not support using immutable variables in assembly code
 
     bytes32 targetAddress;
     uint256 locOffset;

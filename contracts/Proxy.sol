@@ -1,7 +1,10 @@
 contract Proxy {
+  // We will manually overwrite these when creating the proxy,
+  // since solc does not support using immutable variables in assembly code
   address constant main = 0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC;
   address constant backup = 0xDDdDddDdDdddDDddDDddDDDDdDdDDdDDdDDDDDDd;
 
+  // Given this contract is just a fallback fn, we could probably write it entirely in assembly
   fallback() external {
     assembly {
       extcodecopy(main, 0, 127, 20)
