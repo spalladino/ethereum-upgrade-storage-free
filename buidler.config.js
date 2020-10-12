@@ -17,7 +17,7 @@ module.exports = {
   defaultNetwork: 'buidlerevm',
   networks: {
     local: {
-      url: 'http://localhost:8545'
+      url: 'http://localhost:9545'
     }
   }
 };
