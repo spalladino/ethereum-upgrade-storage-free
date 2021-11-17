@@ -26,11 +26,11 @@ Upgrades are then a two-tx process. The first tx updates the implementation addr
 
 ## Gas cost per call
 
-The scripts in `scripts/compare` run the same `Counter#increase()` example call through [OpenZeppelin Transparent proxies](https://github.com/OpenZeppelin/openzeppelin-contracts/tree/master/contracts/proxy), [Dharma Beacon proxies](https://github.com/dharma-eng/dharma-smart-wallet/tree/master/contracts/upgradeability), and [EIP-1882 UUPS proxies](https://eips.ethereum.org/EIPS/eip-1822), and report the gas overhead of the call.
+The scripts in `scripts/compare` run the same `Counter#increase()` example call through [OpenZeppelin Transparent proxies](https://github.com/OpenZeppelin/openzeppelin-contracts/tree/master/contracts/proxy), [Dharma Beacon proxies](https://github.com/dharma-eng/dharma-smart-wallet/tree/master/contracts/upgradeability), and [EIP-1822 UUPS proxies](https://eips.ethereum.org/EIPS/eip-1822), and report the gas overhead of the call.
 
 - OpenZeppelin's proxies require 2 `SLOAD`s per call (one for comparing the sender to the admin in order to prevent selector collisions, and one to load the implementation) as explained [here](https://blog.openzeppelin.com/the-transparent-proxy-pattern/).
 - Dharma's proxies take 1 `CALL` (to call from the proxy to the beacon) and 1 `SLOAD` (to load the implementation at the beacon).
-- EIP-1882's proxies only require a single `SLOAD` (to load the implementation from storage).
+- EIP-1822's proxies only require a single `SLOAD` (to load the implementation from storage).
 - Proxies in this proof-of-concept require a single `EXTCODECOPY` (to copy the implementation from the beacon's code).
 
 The cost for calling `increase` on a non-zero `Counter` contract directly is `27045`. Following is the gas cost and gas overhead introduced per call for each standard (less is better).
@@ -39,7 +39,7 @@ The cost for calling `increase` on a non-zero `Counter` contract directly is `27
 |-|-|-|
 | OpenZeppelin Transparent | 29815 | 2770 |
 | Dharma Beacon  | 29752  | 2707 |
-| EIP-1882 UUPS  | 28679 | 1634 |
+| EIP-1822 UUPS  | 28679 | 1634 |
 | Storageless Beacon  | 28629 | 1584 |
 
 ## Show me the code
